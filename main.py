@@ -12,27 +12,33 @@ from pybricks.robotics import DriveBase
 #brick.sound.beep()
 
 ###########################################
- # Main method
+# Main method incoming
 
- #motors
- mRight = Motor(Port.D)
- mLeft = Motor(Port.A)
+#motors
+mRight = Motor(Port.D)
+mLeft = Motor(Port.A)
 
- #sensor
- sRight = ColorSensor(Port.S4)
+#sensor
+sRight = ColorSensor(Port.S4)
 
 #other init for run_time
 speed = 360/4 #deg/sec
-time = 500 #ms
+timeA = 500 #ms
 stop_type = Stop.COAST
-wait=false
+waitA = False
 
 
-#value
-getValue = sRight.ambient()
 
 #PID
 #incoming
 
-
-
+#LineFollow
+while True:
+    if sRight.reflection() < 30:  
+        mLeft.run_time(speed, timeA, stop_type, wait)
+        print("mLeft")
+        print(sRight.reflection())
+    elif sRight.reflection() > 30:
+        mRight.run_time(speed, timeA, stop_type, wait)
+        print("mRight")
+        print(sRight.reflection())    
