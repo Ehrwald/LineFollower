@@ -21,5 +21,18 @@ from pybricks.robotics import DriveBase
  #sensor
  sRight = ColorSensor(Port.S4)
 
- 
+#other init for run_time
+speed = 360/4 #deg/sec
+time = 500 #ms
+stop_type = Stop.COAST
+wait=false
+
+
+#value
+getValue = sRight.ambient()
+
+#PID
+#incoming
+
+
 
