@@ -7,6 +7,7 @@ from pybricks.parameters import (Port, Stop, Direction, Button, Color,
                                  SoundFile, ImageFile, Align)
 from pybricks.tools import print, wait, StopWatch
 from pybricks.robotics import DriveBase
+from time import sleep
 
 # Write your program here
 #brick.sound.beep()
@@ -52,14 +53,15 @@ while True:
 
 
 #LineFollow
+   
     
     if pid >= 0:
-        mLeft.run_time(speed_sp=speed + pid, time_s=timeA, stop_type, waitA)
-        mRight.run_time(speed_sp=speed - pid, time_sp=timeA, stop_type, waitA)
+        mLeft.run_time(speed + pid, timeA, stop_type, waitA)
+        mRight.run_time(speed - pid, timeA, stop_type, waitA)
         sleep(timeA / 1000)
     else:
-        mLeft.run_time(speed_sp=speed - pid, time_sp=timeA, stop_type)
-        mRight.run_time(speed_sp=speed + pid, time_sp=timeA, stop_type)
+        mLeft.run_time(speed - pid, timeA, stop_type)
+        mRight.run_time(speed + pid, timeA, stop_type)
         sleep(timeA / 1000)   
 
     previous_error = error
