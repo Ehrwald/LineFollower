@@ -27,18 +27,41 @@ timeA = 500 #ms
 stop_type = Stop.COAST
 waitA = False
 
-
+#sensor value
+getValue = sRight.reflection()
 
 #PID
-#incoming
+Kp = 1
+Ki = 0
+Kd = 0
+integral = 0
+previous_error = 0
+
+while True:
+    error = getValue - sRight.reflection()
+    integral += (error * timeA)
+    derivative = (error - previous_error) / timeA
+
+    pid = (Kp * error) + (Ki * integral) + (Kd * derivative)
+
+    if speed + abs(pid) > 1000:
+        if pid >= 0:
+            pid = 1000 - speed
+        else:
+            pid = speed - 1000
+
 
 #LineFollow
-while True:
-    if sRight.reflection() < 30:  
-        mLeft.run_time(speed, timeA, stop_type, wait)
-        print("mLeft")
-        print(sRight.reflection())
-    elif sRight.reflection() > 30:
-        mRight.run_time(speed, timeA, stop_type, wait)
-        print("mRight")
-        print(sRight.reflection())    
+    
+    if pid >= 0:
+        mLeft.run_time(speed_sp=speed + pid, time_s=timeA, stop_type, waitA)
+        mRight.run_time(speed_sp=speed - pid, time_sp=timeA, stop_type, waitA)
+        sleep(timeA / 1000)
+    else:
+        mLeft.run_time(speed_sp=speed - pid, time_sp=timeA, stop_type)
+        mRight.run_time(speed_sp=speed + pid, time_sp=timeA, stop_type)
+        sleep(timeA / 1000)   
+
+    previous_error = error
+
+#PID code from Carl Strömberg -> https://gist.github.com/CS2098
